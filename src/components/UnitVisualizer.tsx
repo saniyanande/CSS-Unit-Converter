@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Square, Layout, Box, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Square, Layout, Box } from 'lucide-react';
 import PixelGrid from './PixelGrid';
 import { UnitType } from '@/lib/unitConversions';
 
@@ -26,43 +26,48 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
         return (
           <div className="typography-demo">
             <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Typography Visualization</h3>
-            <div className="relative bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            <div className="relative bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 overflow-hidden">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-xs text-gray-500">Base Size (16px)</span>
                 <span className="text-xs text-gray-500">Your Size ({pixelValue}px)</span>
               </div>
               <div className="flex flex-col space-y-4">
+                {/* Base font size stays constant */}
                 <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
-                  <motion.p
-                    className="font-mono"
-                    style={{ fontSize: 16 }}
-                  >
+                  <div className="w-4 h-4 bg-blue-500 rounded-full flex-shrink-0"></div>
+                  <p className="font-mono text-base truncate">
                     The quick brown fox.
-                  </motion.p>
+                  </p>
                 </div>
+                {/* Converted font size changes */}
                 <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-purple-500 rounded-full"></div>
+                  <div className="w-4 h-4 bg-purple-500 rounded-full flex-shrink-0"></div>
                   <motion.p
                     initial={{ fontSize: 16 }}
-                    animate={{ fontSize: Math.min(pixelValue, 72) }} // Cap at 72px to prevent overflow
+                    animate={{ fontSize: Math.min(pixelValue, 48) }} // Cap at 48px to prevent overflow
                     transition={{ duration: 0.5 }}
-                    className="font-mono overflow-hidden text-ellipsis"
+                    className="font-mono truncate"
+                    style={{ lineHeight: 1.2 }}
                   >
                     The quick brown fox.
                   </motion.p>
                 </div>
               </div>
-              <div className="mt-6">
-                <div className="text-center text-xs text-gray-500 mb-2">
-                  {pixelValue > 72 ? 'Showing visualization scaled to fit (actual: ' + pixelValue + 'px)' : ''}
+              
+              {/* Only show the scaling message if we had to scale */}
+              {pixelValue > 48 && (
+                <div className="mt-3 text-center text-xs text-gray-500">
+                  Showing visualization scaled to fit (actual: {pixelValue}px)
                 </div>
+              )}
+              
+              <div className="mt-4 overflow-hidden">
                 <PixelGrid 
-                  pixelCount={Math.min(pixelValue * 2, 200)} 
+                  pixelCount={Math.min(100, pixelValue)} 
                   highlightCount={Math.min(pixelValue, 100)} 
                   comparisonMode={true}
                   unitType={unitType}
-                  containerWidth={300}
+                  containerWidth={280}
                 />
               </div>
             </div>
@@ -76,24 +81,30 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
         return (
           <div className="borders-demo">
             <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Border Visualization</h3>
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 overflow-hidden">
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 justify-around">
                 <div className="text-center">
-                  <div className="relative">
-                    <motion.div 
-                      className="bg-white dark:bg-gray-800 rounded mb-2 mx-auto"
-                      initial={{ border: '0px solid #3B82F6' }}
-                      animate={{ border: `${displayBorderSize}px solid #3B82F6` }}
-                      transition={{ duration: 0.5 }}
-                      style={{ width: 100, height: 100 }}
-                    >
-                      {pixelValue > 20 && (
-                        <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-500">
-                          Scaled for display
-                        </div>
-                      )}
-                    </motion.div>
-                    <span className="text-xs text-gray-500">{pixelValue}px border</span>
+                  <div className="relative mb-2 mx-auto">
+                    {/* Border box with fixed size container */}
+                    <div className="w-[100px] h-[100px] flex items-center justify-center">
+                      <motion.div 
+                        className="bg-white dark:bg-gray-800 rounded"
+                        initial={{ border: '0px solid #3B82F6' }}
+                        animate={{ border: `${displayBorderSize}px solid #3B82F6` }}
+                        transition={{ duration: 0.5 }}
+                        style={{ 
+                          width: `${Math.max(20, 100 - displayBorderSize * 2)}px`, 
+                          height: `${Math.max(20, 100 - displayBorderSize * 2)}px`
+                        }}
+                      >
+                        {pixelValue > 20 && (
+                          <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-500">
+                            Scaled for display
+                          </div>
+                        )}
+                      </motion.div>
+                    </div>
+                    <span className="text-xs text-gray-500 block mt-2">{pixelValue}px border</span>
                   </div>
                   
                   {/* Show border segments */}
@@ -109,10 +120,11 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
                     ))}
                   </div>
                 </div>
-                <div className="flex flex-col justify-center">
-                  <div className="relative h-24 w-full">
+                
+                <div className="flex flex-col justify-center overflow-hidden">
+                  <div className="relative h-24 w-full max-w-[150px] overflow-hidden">
                     <PixelGrid 
-                      pixelCount={Math.min(100, pixelValue * 3)} 
+                      pixelCount={Math.min(50, pixelValue * 2)} 
                       highlightCount={Math.min(pixelValue, 50)} 
                       comparisonMode={true}
                       containerWidth={150}
@@ -127,69 +139,73 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
         );
         
       case 'spacing':
-        // Improved spacing visualization
+        // Improved spacing visualization with containment
+        const safeSpacing = Math.min(pixelValue, 60); // Cap visual spacing
+        
         return (
           <div className="spacing-demo">
             <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Spacing Visualization</h3>
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-              <div className="flex flex-col space-y-4">
-                <div className="flex justify-center">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="flex justify-center mb-4">
+                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-[200px] h-[180px] flex flex-col items-center justify-center">
+                  {/* Top element */}
+                  <div className="bg-blue-100 dark:bg-blue-900 w-12 h-12 flex items-center justify-center rounded">
+                    <Box className="h-6 w-6 text-blue-500" />
+                  </div>
+                  
+                  {/* Spacing indicator */}
                   <motion.div 
-                    className="flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-6 rounded-lg"
-                    animate={{ gap: Math.min(pixelValue, 50) }}
+                    className="w-6 flex justify-center relative"
+                    animate={{ height: safeSpacing }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className="bg-blue-100 dark:bg-blue-900 w-12 h-12 flex items-center justify-center rounded">
-                      <Box className="h-6 w-6 text-blue-500" />
-                    </div>
-                    
-                    {/* Spacing indicator */}
-                    <motion.div 
-                      className="w-6 flex justify-center"
-                      animate={{ height: Math.min(pixelValue, 50) }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <div className="h-full border-l-2 border-dashed border-purple-400 relative">
-                        <div className="absolute -left-[9px] top-0 w-[20px] h-[1px] bg-purple-400"></div>
-                        <div className="absolute -left-[9px] bottom-0 w-[20px] h-[1px] bg-purple-400"></div>
-                        <div className="absolute left-1 top-1/2 -translate-y-1/2 text-xs whitespace-nowrap text-purple-600">
-                          {pixelValue}px gap
-                        </div>
+                    <div className="h-full border-l-2 border-dashed border-purple-400 relative">
+                      <div className="absolute -left-[9px] top-0 w-[20px] h-[1px] bg-purple-400"></div>
+                      <div className="absolute -left-[9px] bottom-0 w-[20px] h-[1px] bg-purple-400"></div>
+                      <div className="absolute left-2 top-1/2 -translate-y-1/2 text-xs whitespace-nowrap text-purple-600">
+                        {pixelValue}px gap
                       </div>
-                    </motion.div>
-                    
-                    <div className="bg-purple-100 dark:bg-purple-900 w-12 h-12 flex items-center justify-center rounded">
-                      <Square className="h-6 w-6 text-purple-500" />
                     </div>
                   </motion.div>
+                  
+                  {/* Bottom element */}
+                  <div className="bg-purple-100 dark:bg-purple-900 w-12 h-12 flex items-center justify-center rounded">
+                    <Square className="h-6 w-6 text-purple-500" />
+                  </div>
                 </div>
+              </div>
                 
-                <div className="text-center text-xs text-gray-500">
-                  {pixelValue > 50 ? 'Visualization scaled to fit (actual: ' + pixelValue + 'px)' : pixelValue + 'px gap'}
+              {/* Show scaling message if needed */}
+              {pixelValue > 60 && (
+                <div className="text-center text-xs text-gray-500 mb-3">
+                  Visualization scaled to fit (actual: {pixelValue}px)
                 </div>
+              )}
                 
-                <div className="relative h-20 w-full mt-2">
-                  <PixelGrid 
-                    pixelCount={Math.min(100, pixelValue * 2)} 
-                    highlightCount={Math.min(pixelValue, 50)} 
-                    comparisonMode={true}
-                    showSpacing={true}
-                    unitType={unitType}
-                    containerWidth={300}
-                  />
-                </div>
+              <div className="relative w-full overflow-hidden">
+                <PixelGrid 
+                  pixelCount={Math.min(80, pixelValue)} 
+                  highlightCount={Math.min(pixelValue, 80)} 
+                  comparisonMode={true}
+                  showSpacing={true}
+                  unitType={unitType}
+                  containerWidth={280}
+                />
               </div>
             </div>
           </div>
         );
         
       case 'layout':
-        // Improved layout visualization with better bounds
+        // Improved layout visualization with containment
+        const maxDisplayWidth = 250; // Maximum display width
+        const displayWidth = Math.min(pixelValue, maxDisplayWidth);
+        
         return (
           <div className="layout-demo">
             <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Layout Visualization</h3>
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-              <div className="relative overflow-hidden rounded-lg border border-gray-300 dark:border-gray-600 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="relative overflow-hidden rounded-lg border border-gray-300 dark:border-gray-600 mb-4 max-w-full">
                 <div className="bg-gray-100 dark:bg-gray-700 h-6 flex items-center px-2">
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 rounded-full bg-red-500"></div>
@@ -202,12 +218,12 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
                     <motion.div
                       className="h-full bg-blue-100 dark:bg-blue-900 rounded flex items-center justify-center"
                       initial={{ width: 20 }}
-                      animate={{ width: Math.min(pixelValue, 300) }}
+                      animate={{ width: displayWidth }}
                       transition={{ duration: 0.5 }}
                     >
-                      <div className="text-xs text-gray-600 dark:text-gray-300 px-2 text-center">
+                      <div className="text-xs text-gray-600 dark:text-gray-300 px-2 text-center truncate">
                         {pixelValue}px width
-                        {pixelValue > 300 && ' (scaled to fit)'}
+                        {pixelValue > maxDisplayWidth ? ' (scaled to fit)' : ''}
                       </div>
                     </motion.div>
                     <div className="h-full flex-grow"></div>
@@ -215,14 +231,14 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
                 </div>
               </div>
               
-              <div className="flex justify-center">
-                <div className="relative h-24 w-full max-w-sm">
+              <div className="flex justify-center overflow-hidden">
+                <div className="relative w-full max-w-[280px] overflow-hidden">
                   <PixelGrid 
-                    pixelCount={Math.min(200, pixelValue * 2)} 
+                    pixelCount={Math.min(100, pixelValue)} 
                     highlightCount={Math.min(pixelValue, 100)} 
                     comparisonMode={true}
                     unitType={unitType}
-                    containerWidth={300}
+                    containerWidth={280}
                   />
                 </div>
               </div>
@@ -232,13 +248,13 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
         
       default:
         return (
-          <div className="flex justify-center items-center py-8">
+          <div className="flex justify-center items-center py-8 overflow-hidden">
             <PixelGrid 
-              pixelCount={Math.min(200, pixelValue * 2)} 
+              pixelCount={Math.min(100, pixelValue)} 
               highlightCount={Math.min(pixelValue, 100)} 
               comparisonMode={true}
               unitType={unitType}
-              containerWidth={300}
+              containerWidth={280}
             />
           </div>
         );
