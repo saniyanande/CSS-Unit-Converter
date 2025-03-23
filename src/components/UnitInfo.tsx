@@ -39,24 +39,38 @@ const UnitInfo: React.FC<UnitInfoProps> = ({ unitType, unitInfo }) => {
           <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Browser Support</h3>
           <div className="flex items-center">
             <div className={`w-2 h-2 rounded-full mr-2 ${
-              unitInfo.browserSupport === 'Excellent' ? 'bg-green-500' :
-              unitInfo.browserSupport === 'Good' ? 'bg-yellow-500' : 'bg-red-500'
+              unitInfo.browserSupport === 5 ? 'bg-green-500' :
+              unitInfo.browserSupport >= 3 ? 'bg-yellow-500' : 'bg-red-500'
             }`}></div>
-            <span className="text-gray-600 dark:text-gray-400">{unitInfo.browserSupport}</span>
+            <span className="text-gray-600 dark:text-gray-400">
+              {unitInfo.browserSupport === 5 ? 'Excellent' : 
+               unitInfo.browserSupport >= 3 ? 'Good' : 'Limited'}
+            </span>
           </div>
         </div>
         
-        {unitInfo.moreInfoUrl && (
-          <a
-            href={unitInfo.moreInfoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
-          >
-            Learn more about {unitInfo.name}
-            <ExternalLink className="ml-1 h-3 w-3" />
-          </a>
-        )}
+        <div className="mt-4">
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Responsive Rating</h3>
+          <div className="flex">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <div 
+                key={star}
+                className={`w-4 h-4 mr-1 rounded-full ${
+                  star <= unitInfo.responsiveRating ? 'bg-blue-500' : 'bg-gray-200 dark:bg-gray-700'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+        
+        <div className="mt-4">
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Avoid Using For</h3>
+          <ul className="list-disc pl-5 text-gray-600 dark:text-gray-400 space-y-1">
+            {unitInfo.avoid.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </motion.div>
   );

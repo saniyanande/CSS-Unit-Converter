@@ -7,6 +7,8 @@ import AnimatedValue from './AnimatedValue';
 import PixelGrid from './PixelGrid';
 import UnitInfo from './UnitInfo';
 import CopyButton from './CopyButton';
+import UnitVisualizer from './UnitVisualizer';
+import UnitRecommendation from './UnitRecommendation';
 import {
   UnitType,
   UNITS_INFO,
@@ -23,6 +25,7 @@ const UnitConverter: React.FC = () => {
   const [showUnitInfo, setShowUnitInfo] = useState<UnitType | null>(null);
   const [context, setContext] = useState<string>('typography');
   const [suggestedUnit, setSuggestedUnit] = useState<UnitType | null>(null);
+  const [showVisualization, setShowVisualization] = useState<boolean>(true);
   
   // All available units
   const availableUnits: UnitType[] = [
@@ -52,7 +55,7 @@ const UnitConverter: React.FC = () => {
   const fullCssValue = `${formatUnitValue(outputValue, outputUnit)}`;
 
   return (
-    <div className="max-w-3xl mx-auto py-8 px-4">
+    <div className="max-w-4xl mx-auto py-8 px-4">
       <motion.div
         className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
@@ -118,26 +121,15 @@ const UnitConverter: React.FC = () => {
               </div>
             </div>
             
-            {/* Pixel Grid Visualization */}
-            <AnimatePresence mode="wait">
-              {inputUnit === 'px' && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700"
-                >
-                  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Pixel Visualization</h3>
-                  <div className="flex justify-center">
-                    <PixelGrid pixelCount={Math.min(inputValue * 2, 200)} highlightCount={inputValue} />
-                  </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-3 text-center">
-                    {inputValue} pixels highlighted
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Visualization Toggle */}
+            <div className="flex items-center">
+              <button
+                onClick={() => setShowVisualization(!showVisualization)}
+                className={`text-sm ${showVisualization ? 'text-primary' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+              >
+                {showVisualization ? 'Hide Visualization' : 'Show Visualization'}
+              </button>
+            </div>
             
             {/* Unit Info Button */}
             <button
@@ -230,6 +222,34 @@ const UnitConverter: React.FC = () => {
             </button>
           </div>
         </div>
+        
+        {/* Visualization Section */}
+        <AnimatePresence>
+          {showVisualization && (
+            <motion.div 
+              className="p-6 border-t border-gray-200 dark:border-gray-800"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <UnitVisualizer 
+                  unitType={inputUnit === 'px' ? outputUnit : inputUnit}
+                  pixelValue={inputUnit === 'px' ? inputValue : Math.round(convertUnits(inputValue, inputUnit, 'px'))}
+                  context={context}
+                />
+                
+                <UnitRecommendation 
+                  context={context}
+                  value={inputValue}
+                  suggestedUnit={suggestedUnit || 'rem'}
+                  currentUnit={outputUnit}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
       
       {/* Unit Information Dialog */}
