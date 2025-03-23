@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { toast } from '@/components/ui/sonner';
+import { toast } from 'sonner';
 
 interface CopyButtonProps {
   value: string;
