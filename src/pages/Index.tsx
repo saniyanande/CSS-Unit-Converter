@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import UnitConverter from '@/components/UnitConverter';
+import { Twitter, Github, Linkedin } from 'lucide-react';
 
 const Index = () => {
   useEffect(() => {
@@ -44,13 +45,89 @@ const Index = () => {
           <UnitConverter />
         </main>
         
-        <footer className="py-12 text-center text-gray-500 dark:text-gray-400 text-sm">
+        <footer className="py-12 text-center">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 1 }}
+            className="text-gray-500 dark:text-gray-400 text-sm mb-4"
           >
             Designed with precision and elegance.
+          </motion.p>
+          
+          <motion.div 
+            className="flex justify-center space-x-6 mt-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+          >
+            <a 
+              href="https://twitter.com/saniyanande" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-blue-400 transition-colors duration-200"
+            >
+              <Twitter size={20} />
+              <span className="sr-only">Twitter</span>
+            </a>
+            <a 
+              href="https://github.com/saniyanande" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200"
+            >
+              <Github size={20} />
+              <span className="sr-only">GitHub</span>
+            </a>
+            <a 
+              href="https://linkedin.com/in/saniyanande" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
+            >
+              <Linkedin size={20} />
+              <span className="sr-only">LinkedIn</span>
+            </a>
+            <a 
+              href="https://peerlist.io/saniyanande" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-purple-500 transition-colors duration-200"
+            >
+              <svg 
+                width="20" 
+                height="20" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="inline-block"
+              >
+                <path 
+                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+                <path 
+                  d="M8 12H16M12 8V16" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span className="sr-only">Peerlist</span>
+            </a>
+          </motion.div>
+          
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.4 }}
+            className="mt-4 text-xs text-gray-400 dark:text-gray-500"
+          >
+            © {new Date().getFullYear()} Saniya Nande. All rights reserved.
           </motion.p>
         </footer>
       </div>
