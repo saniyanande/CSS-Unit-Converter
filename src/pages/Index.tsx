@@ -19,6 +19,21 @@ const Index = () => {
     };
   }, []);
 
+  // Animation variants for the bouncing title
+  const titleVariants = {
+    initial: { y: 0 },
+    animate: {
+      y: [0, -15, 0],
+      transition: {
+        duration: 1.5,
+        repeat: Infinity,
+        repeatType: "reverse" as const,
+        ease: "easeInOut",
+        repeatDelay: 3,
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4">
@@ -32,9 +47,14 @@ const Index = () => {
             <div className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-medium mb-2">
               Dynamic Visualization
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+            <motion.h1 
+              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3"
+              variants={titleVariants}
+              initial="initial"
+              animate="animate"
+            >
               CSS Unit Converter
-            </h1>
+            </motion.h1>
             <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
               Convert between CSS units with interactive visualizations. See exactly how units relate to each other and learn when to use each one.
             </p>
