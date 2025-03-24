@@ -23,6 +23,11 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
   const renderContextVisualization = () => {
     switch (context) {
       case 'typography':
+        // Max font size for display purposes
+        const maxDisplayFontSize = 36;
+        const baseSize = 16; // Standard browser base size
+        const convertedSize = Math.min(pixelValue, maxDisplayFontSize);
+        
         return (
           <div className="typography-demo">
             <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Typography Visualization</h3>
@@ -32,30 +37,32 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
                 <span className="text-xs text-gray-500">Your Size ({pixelValue}px)</span>
               </div>
               <div className="flex flex-col space-y-4">
-                {/* Base font size stays constant */}
+                {/* Base font size - THIS STAYS CONSTANT at 16px */}
                 <div className="flex items-center gap-3">
                   <div className="w-4 h-4 bg-blue-500 rounded-full flex-shrink-0"></div>
                   <p className="font-mono text-base truncate">
                     The quick brown fox.
                   </p>
                 </div>
-                {/* Converted font size changes */}
+                {/* Converted font size changes based on the converted value */}
                 <div className="flex items-center gap-3">
                   <div className="w-4 h-4 bg-purple-500 rounded-full flex-shrink-0"></div>
-                  <motion.p
-                    initial={{ fontSize: 16 }}
-                    animate={{ fontSize: Math.min(pixelValue, 48) }} // Cap at 48px to prevent overflow
-                    transition={{ duration: 0.5 }}
-                    className="font-mono truncate"
-                    style={{ lineHeight: 1.2 }}
-                  >
-                    The quick brown fox.
-                  </motion.p>
+                  <div className="overflow-hidden">
+                    <motion.p
+                      initial={{ fontSize: 16 }}
+                      animate={{ fontSize: convertedSize }}
+                      transition={{ duration: 0.5 }}
+                      className="font-mono"
+                      style={{ lineHeight: 1.2 }}
+                    >
+                      {pixelValue > 30 ? "Text" : "The quick brown fox."}
+                    </motion.p>
+                  </div>
                 </div>
               </div>
               
               {/* Only show the scaling message if we had to scale */}
-              {pixelValue > 48 && (
+              {pixelValue > maxDisplayFontSize && (
                 <div className="mt-3 text-center text-xs text-gray-500">
                   Showing visualization scaled to fit (actual: {pixelValue}px)
                 </div>
@@ -85,8 +92,8 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
               <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 justify-around">
                 <div className="text-center">
                   <div className="relative mb-2 mx-auto">
-                    {/* Fixed container for border box */}
-                    <div className="w-[100px] h-[100px] flex items-center justify-center overflow-hidden">
+                    {/* Fixed size container */}
+                    <div className="w-[100px] h-[100px] flex items-center justify-center">
                       <motion.div 
                         className="bg-white dark:bg-gray-800 rounded"
                         initial={{ border: '0px solid #3B82F6' }}
@@ -140,48 +147,51 @@ const UnitVisualizer: React.FC<UnitVisualizerProps> = ({
         );
         
       case 'spacing':
-        // Improved spacing visualization with containment
-        const safeSpacing = Math.min(pixelValue, 60); // Cap visual spacing
+        // Improved spacing visualization with proper containment
+        const maxVisualSpacing = 60; // Maximum visual spacing to display
+        const safeSpacing = Math.min(pixelValue, maxVisualSpacing);
         
         return (
           <div className="spacing-demo">
             <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Spacing Visualization</h3>
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
               <div className="flex justify-center mb-4">
-                {/* Fixed height container to prevent overflow */}
-                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-[200px] h-[180px] flex flex-col items-center justify-between overflow-hidden">
+                {/* Container with fixed height */}
+                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-full max-w-[200px] h-[180px] flex flex-col items-center justify-between">
                   {/* Top element */}
-                  <div className="bg-blue-100 dark:bg-blue-900 w-12 h-12 flex items-center justify-center rounded">
+                  <div className="bg-blue-100 dark:bg-blue-900 w-12 h-12 flex items-center justify-center rounded flex-shrink-0">
                     <Box className="h-6 w-6 text-blue-500" />
                   </div>
                   
-                  {/* Middle spacing section with fixed max height */}
-                  <div className="flex flex-col items-center justify-center" style={{ height: Math.min(60, safeSpacing) }}>
+                  {/* Middle spacing section - THIS IS CONTAINED */}
+                  <div className="flex items-center justify-center relative" style={{ height: safeSpacing }}>
                     {/* Spacing indicator */}
-                    <div className="h-full w-6 flex justify-center relative">
-                      <div className="h-full border-l-2 border-dashed border-purple-400 relative">
-                        <div className="absolute -left-[9px] top-0 w-[20px] h-[1px] bg-purple-400"></div>
-                        <div className="absolute -left-[9px] bottom-0 w-[20px] h-[1px] bg-purple-400"></div>
-                        <div className="absolute left-2 top-1/2 -translate-y-1/2 text-xs whitespace-nowrap text-purple-600">
+                    {safeSpacing > 0 && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="h-full w-1 bg-dashed bg-purple-400 relative">
+                          <div className="absolute -left-[4px] top-0 w-[9px] h-[1px] bg-purple-400"></div>
+                          <div className="absolute -left-[4px] bottom-0 w-[9px] h-[1px] bg-purple-400"></div>
+                        </div>
+                        <div className="absolute left-3 text-xs whitespace-nowrap text-purple-600">
                           {pixelValue}px
                         </div>
-                      </div>
-                    </div>
-                    
-                    {/* Scaling indicator */}
-                    {pixelValue > 60 && (
-                      <div className="text-xs text-gray-500 mt-1">
-                        Scaled (actual: {pixelValue}px)
                       </div>
                     )}
                   </div>
                   
                   {/* Bottom element */}
-                  <div className="bg-purple-100 dark:bg-purple-900 w-12 h-12 flex items-center justify-center rounded">
+                  <div className="bg-purple-100 dark:bg-purple-900 w-12 h-12 flex items-center justify-center rounded flex-shrink-0">
                     <Square className="h-6 w-6 text-purple-500" />
                   </div>
                 </div>
               </div>
+              
+              {/* Scaling indicator */}
+              {pixelValue > maxVisualSpacing && (
+                <div className="text-xs text-gray-500 mb-3 text-center">
+                  Visualization scaled to fit (actual: {pixelValue}px)
+                </div>
+              )}
                 
               <div className="relative w-full overflow-hidden">
                 <PixelGrid 
