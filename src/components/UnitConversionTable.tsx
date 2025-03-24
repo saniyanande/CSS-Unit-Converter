@@ -19,65 +19,68 @@ interface UnitConversionTableProps {
 
 // Create conversion factors matrix
 const getConversions = (baseValue: number = 16) => {
-  const units: UnitType[] = ['px', 'rem', 'em', '%', 'vh', 'vw'];
-  const conversions: Record<UnitType, Record<UnitType, string>> = {} as any;
+  const displayUnits: UnitType[] = ['px', 'rem', 'em', '%', 'vh', 'vw'];
+  
+  // Define the conversion matrix for displayed units
+  const conversions: Record<string, Record<string, string>> = {};
+  
+  // Initialize with placeholder values for all required units
+  const allUnits: UnitType[] = [
+    'px', 'rem', 'em', '%', 'vh', 'vw', 'vmin', 'vmax', 'cm', 'mm', 'in', 'pt', 'pc'
+  ];
+  
+  // Initialize the full conversion matrix with placeholder values
+  allUnits.forEach(fromUnit => {
+    conversions[fromUnit] = {};
+    allUnits.forEach(toUnit => {
+      conversions[fromUnit][toUnit] = 'N/A';
+    });
+  });
   
   // Standard conversion values (approximated)
-  conversions['px'] = {
-    'px': '1',
-    'rem': `${1/16}`,
-    'em': `${1/16}`,
-    '%': 'Depends on parent',
-    'vh': `${100/window.innerHeight}`,
-    'vw': `${100/window.innerWidth}`
-  };
+  conversions['px']['px'] = '1';
+  conversions['px']['rem'] = `${1/16}`;
+  conversions['px']['em'] = `${1/16}`;
+  conversions['px']['%'] = 'Depends on parent';
+  conversions['px']['vh'] = `${100/window.innerHeight}`;
+  conversions['px']['vw'] = `${100/window.innerWidth}`;
   
-  conversions['rem'] = {
-    'px': '16',
-    'rem': '1',
-    'em': '1',
-    '%': 'Depends on parent',
-    'vh': `${1600/window.innerHeight}`,
-    'vw': `${1600/window.innerWidth}`
-  };
+  conversions['rem']['px'] = '16';
+  conversions['rem']['rem'] = '1';
+  conversions['rem']['em'] = '1';
+  conversions['rem']['%'] = 'Depends on parent';
+  conversions['rem']['vh'] = `${1600/window.innerHeight}`;
+  conversions['rem']['vw'] = `${1600/window.innerWidth}`;
   
-  conversions['em'] = {
-    'px': 'Depends on parent',
-    'rem': 'Depends on parent',
-    'em': '1',
-    '%': 'Depends on parent',
-    'vh': 'Depends on context',
-    'vw': 'Depends on context'
-  };
+  conversions['em']['px'] = 'Depends on parent';
+  conversions['em']['rem'] = 'Depends on parent';
+  conversions['em']['em'] = '1';
+  conversions['em']['%'] = 'Depends on parent';
+  conversions['em']['vh'] = 'Depends on context';
+  conversions['em']['vw'] = 'Depends on context';
   
-  conversions['%'] = {
-    'px': 'Depends on parent',
-    'rem': 'Depends on parent',
-    'em': 'Depends on parent',
-    '%': '1',
-    'vh': 'Depends on context',
-    'vw': 'Depends on context'
-  };
+  conversions['%']['px'] = 'Depends on parent';
+  conversions['%']['rem'] = 'Depends on parent';
+  conversions['%']['em'] = 'Depends on parent';
+  conversions['%']['%'] = '1';
+  conversions['%']['vh'] = 'Depends on context';
+  conversions['%']['vw'] = 'Depends on context';
   
-  conversions['vh'] = {
-    'px': `${window.innerHeight/100}`,
-    'rem': `${(window.innerHeight/100)/16}`,
-    'em': `${(window.innerHeight/100)/16}`,
-    '%': 'Depends on parent',
-    'vh': '1',
-    'vw': `${window.innerHeight/window.innerWidth}`
-  };
+  conversions['vh']['px'] = `${window.innerHeight/100}`;
+  conversions['vh']['rem'] = `${(window.innerHeight/100)/16}`;
+  conversions['vh']['em'] = `${(window.innerHeight/100)/16}`;
+  conversions['vh']['%'] = 'Depends on parent';
+  conversions['vh']['vh'] = '1';
+  conversions['vh']['vw'] = `${window.innerHeight/window.innerWidth}`;
   
-  conversions['vw'] = {
-    'px': `${window.innerWidth/100}`,
-    'rem': `${(window.innerWidth/100)/16}`,
-    'em': `${(window.innerWidth/100)/16}`,
-    '%': 'Depends on parent',
-    'vh': `${window.innerWidth/window.innerHeight}`,
-    'vw': '1'
-  };
+  conversions['vw']['px'] = `${window.innerWidth/100}`;
+  conversions['vw']['rem'] = `${(window.innerWidth/100)/16}`;
+  conversions['vw']['em'] = `${(window.innerWidth/100)/16}`;
+  conversions['vw']['%'] = 'Depends on parent';
+  conversions['vw']['vh'] = `${window.innerWidth/window.innerHeight}`;
+  conversions['vw']['vw'] = '1';
   
-  return { units, conversions };
+  return { units: displayUnits, conversions };
 };
 
 // Reference values for common conversions
