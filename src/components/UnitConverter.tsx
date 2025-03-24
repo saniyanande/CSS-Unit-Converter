@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Info } from 'lucide-react';
+import { ArrowRight, Info, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AnimatedValue from './AnimatedValue';
 import PixelGrid from './PixelGrid';
@@ -9,6 +8,7 @@ import UnitInfo from './UnitInfo';
 import CopyButton from './CopyButton';
 import UnitVisualizer from './UnitVisualizer';
 import UnitRecommendation from './UnitRecommendation';
+import UnitConversionTable from './UnitConversionTable';
 import {
   UnitType,
   UNITS_INFO,
@@ -26,14 +26,13 @@ const UnitConverter: React.FC = () => {
   const [context, setContext] = useState<string>('typography');
   const [suggestedUnit, setSuggestedUnit] = useState<UnitType | null>(null);
   const [showVisualization, setShowVisualization] = useState<boolean>(true);
-  
-  // All available units
+  const [showConversionTable, setShowConversionTable] = useState<boolean>(false);
+
   const availableUnits: UnitType[] = [
     'px', 'rem', 'em', 'vh', 'vw', '%', 'vmin', 'vmax', 
     'cm', 'mm', 'in', 'pt', 'pc'
   ];
 
-  // Context options
   const contexts = [
     { value: 'typography', label: 'Typography' },
     { value: 'layout', label: 'Layout' },
@@ -41,17 +40,14 @@ const UnitConverter: React.FC = () => {
     { value: 'borders', label: 'Borders' }
   ];
 
-  // Update the conversion when inputs change
   useEffect(() => {
     const newOutputValue = convertUnits(inputValue, inputUnit, outputUnit);
     setOutputValue(newOutputValue);
     
-    // Get unit suggestion
     const suggested = suggestBestUnit(context, inputValue, inputUnit);
     setSuggestedUnit(suggested);
   }, [inputValue, inputUnit, outputUnit, context]);
 
-  // Format the full CSS value for copying
   const fullCssValue = `${formatUnitValue(outputValue, outputUnit)}`;
 
   return (
@@ -62,13 +58,11 @@ const UnitConverter: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Header */}
         <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white">
           <h1 className="text-2xl font-semibold mb-2">CSS Unit Converter</h1>
           <p className="text-blue-100">Convert between CSS units with real-time visualization</p>
         </div>
         
-        {/* Context Selection */}
         <div className="p-6 border-b border-gray-200 dark:border-gray-800">
           <h2 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">What are you styling?</h2>
           <div className="flex flex-wrap gap-2">
@@ -89,9 +83,7 @@ const UnitConverter: React.FC = () => {
           </div>
         </div>
         
-        {/* Converter Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-          {/* Input Section */}
           <div className="space-y-4">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Enter Value
@@ -121,7 +113,6 @@ const UnitConverter: React.FC = () => {
               </div>
             </div>
             
-            {/* Visualization Toggle */}
             <div className="flex items-center">
               <button
                 onClick={() => setShowVisualization(!showVisualization)}
@@ -131,7 +122,6 @@ const UnitConverter: React.FC = () => {
               </button>
             </div>
             
-            {/* Unit Info Button */}
             <button
               onClick={() => setShowUnitInfo(inputUnit)}
               className="inline-flex items-center text-sm text-primary hover:text-primary-dark"
@@ -141,7 +131,6 @@ const UnitConverter: React.FC = () => {
             </button>
           </div>
           
-          {/* Output Section */}
           <div className="space-y-4">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Converted Value
@@ -177,7 +166,6 @@ const UnitConverter: React.FC = () => {
               </div>
             </div>
             
-            {/* Conversion Formula */}
             <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-100 dark:border-blue-800">
               <h3 className="text-sm font-medium text-blue-800 dark:text-blue-300 mb-2">Conversion</h3>
               <div className="flex items-center justify-center space-x-3 text-sm">
@@ -191,7 +179,6 @@ const UnitConverter: React.FC = () => {
               </div>
             </div>
             
-            {/* Suggested Best Unit */}
             {suggestedUnit && suggestedUnit !== outputUnit && (
               <motion.div
                 className="unit-suggestion bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-100 dark:border-green-800"
@@ -212,7 +199,6 @@ const UnitConverter: React.FC = () => {
               </motion.div>
             )}
             
-            {/* Unit Info Button */}
             <button
               onClick={() => setShowUnitInfo(outputUnit)}
               className="inline-flex items-center text-sm text-primary hover:text-primary-dark"
@@ -223,7 +209,6 @@ const UnitConverter: React.FC = () => {
           </div>
         </div>
         
-        {/* Visualization Section */}
         <AnimatePresence>
           {showVisualization && (
             <motion.div 
@@ -250,9 +235,36 @@ const UnitConverter: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+        
+        <div className="p-6 border-t border-gray-200 dark:border-gray-800">
+          <button
+            onClick={() => setShowConversionTable(!showConversionTable)}
+            className="flex items-center justify-between w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          >
+            <span className="font-medium">CSS Unit Conversion Tables Reference</span>
+            {showConversionTable ? (
+              <ChevronUp className="h-5 w-5 text-gray-500" />
+            ) : (
+              <ChevronDown className="h-5 w-5 text-gray-500" />
+            )}
+          </button>
+          
+          <AnimatePresence>
+            {showConversionTable && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mt-4 overflow-hidden"
+              >
+                <UnitConversionTable className="bg-white dark:bg-gray-850 rounded-lg p-4" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </motion.div>
       
-      {/* Unit Information Dialog */}
       <AnimatePresence>
         {showUnitInfo && (
           <motion.div
