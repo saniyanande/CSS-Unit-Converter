@@ -28,12 +28,12 @@ const Index = () => {
             href="https://www.peerlist.io/launchpad" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="absolute top-4 right-4 z-10"
+            className="absolute top-4 left-4 z-10"
           >
             <img 
               src="/lovable-uploads/f8a22d95-bc84-419e-a8da-18f8062e2bf9.png" 
               alt="Live on Peerlist Launchpad" 
-              className="h-10 hover:scale-105 transition-transform"
+              className="h-16 hover:scale-110 transition-transform"
             />
           </a>
           
