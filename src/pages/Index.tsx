@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import UnitConverter from '@/components/UnitConverter';
@@ -22,7 +21,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4">
         <header className="pt-16 pb-12 text-center relative">
-          <div className="absolute top-4 left-0 right-0 flex justify-center z-10">
+          <div className="absolute top-4 left-0 right-0 flex justify-center z-10 mb-8">
             <a 
               href="https://peerlist.io/saniyanande/project/css-unit-converter" 
               target="_blank" 
@@ -40,7 +39,7 @@ const Index = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-4"
+            className="mb-4 pt-20"
           >
             <div className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-medium mb-2">
               Dynamic Visualization
