@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import UnitConverter from '@/components/UnitConverter';
@@ -21,18 +22,19 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4">
         <header className="pt-16 pb-12 text-center relative">
-          <a 
-            href="https://peerlist.io/saniyanande/project/css-unit-converter" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="absolute top-4 left-4 z-10"
-          >
-            <img 
-              src="/lovable-uploads/f8a22d95-bc84-419e-a8da-18f8062e2bf9.png" 
-              alt="Live on Peerlist Launchpad" 
-              className="h-16 hover:scale-110 transition-transform"
-            />
-          </a>
+          <div className="absolute top-4 left-0 right-0 flex justify-center z-10">
+            <a 
+              href="https://peerlist.io/saniyanande/project/css-unit-converter" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <img 
+                src="/lovable-uploads/f8a22d95-bc84-419e-a8da-18f8062e2bf9.png" 
+                alt="Live on Peerlist Launchpad" 
+                className="h-16 hover:scale-110 transition-transform"
+              />
+            </a>
+          </div>
           
           <motion.div
             initial={{ opacity: 0, y: -20 }}
