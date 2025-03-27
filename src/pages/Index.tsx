@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import UnitConverter from '@/components/UnitConverter';
@@ -6,7 +5,6 @@ import { Linkedin, Twitter, Github, FileText } from 'lucide-react';
 
 const Index = () => {
   useEffect(() => {
-    // Add animation to page load
     document.body.style.opacity = '0';
     setTimeout(() => {
       document.body.style.opacity = '1';
@@ -23,9 +21,8 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4">
         <header className="pt-16 pb-12 text-center relative">
-          {/* Add Peerlist Launchpad badge */}
           <a 
-            href="https://www.peerlist.io/launchpad" 
+            href="https://peerlist.io/saniyanande/project/css-unit-converter" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="absolute top-4 left-4 z-10"
