@@ -22,7 +22,21 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4">
-        <header className="pt-16 pb-12 text-center">
+        <header className="pt-16 pb-12 text-center relative">
+          {/* Add Peerlist Launchpad badge */}
+          <a 
+            href="https://www.peerlist.io/launchpad" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="absolute top-4 right-4 z-10"
+          >
+            <img 
+              src="/lovable-uploads/f8a22d95-bc84-419e-a8da-18f8062e2bf9.png" 
+              alt="Live on Peerlist Launchpad" 
+              className="h-10 hover:scale-105 transition-transform"
+            />
+          </a>
+          
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
