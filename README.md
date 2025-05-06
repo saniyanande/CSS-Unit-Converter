@@ -4,8 +4,8 @@ A smart, visual, and developer-friendly CSS Unit Converter that makes switching 
 
 ---
 
-![Project Banner](![css-unit-converter-landing](https://github.com/user-attachments/assets/75fc3507-819c-40ab-b596-d7a0da382fcf)
-)  
+![css-unit-converter-landing](https://github.com/user-attachments/assets/2305232b-82ef-44e1-a2fa-202d40b98fc9)
+
 <!-- Replace the above path with your actual banner image file -->
 
 ---
@@ -22,7 +22,7 @@ Launched as part of the [Peerlist Launchpad](https://www.peerlist.io/launchpad),
 
 ## 🔗 Live Demo
 
-👉 [Check it out here]([https://css-unit-converter.vercel.app/](https://css-unit-converter-rho.vercel.app/))
+👉 https://css-unit-converter-rho.vercel.app/
 
 ---
 
