@@ -16,13 +16,13 @@ Converting between CSS units like `px`, `rem`, `em`, `%`, `vw`, and `vh` can oft
 
 With **real-time visual feedback** and **context-aware suggestions**, this tool helps developers better understand the behavior and best use cases for each CSS unit — all in one seamless, interactive interface.
 
-Launched as part of the [Peerlist Launchpad](https://www.peerlist.io/launchpad), this project proudly secured the **#2 spot out of 91 projects worldwide**.
+Launched as part of the [Peerlist Launchpad](https://peerlist.io/launchpad/2025/week/13), this project proudly secured the **#2 spot out of 91 projects worldwide**.
 
 ---
 
 ## 🔗 Live Demo
 
-👉 https://css-unit-converter-rho.vercel.app/
+👉 [VISIT HERE](https://css-unit-converter-rho.vercel.app/)
 
 ---
 
