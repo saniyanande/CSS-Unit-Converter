@@ -1,69 +1,45 @@
-# Welcome to your Lovable project
+# CSS Unit Converter 🧮
 
-## Project info
+A smart, visual, and developer-friendly CSS Unit Converter that makes switching between CSS units effortless and intuitive.
 
-**URL**: https://lovable.dev/projects/718681f9-1835-4887-a233-9ec8d62d329f
+---
 
-## How can I edit this code?
+![Project Banner](![css-unit-converter-landing](https://github.com/user-attachments/assets/75fc3507-819c-40ab-b596-d7a0da382fcf)
+)  
+<!-- Replace the above path with your actual banner image file -->
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🌟 Introduction
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/718681f9-1835-4887-a233-9ec8d62d329f) and start prompting.
+Converting between CSS units like `px`, `rem`, `em`, `%`, `vw`, and `vh` can often be confusing — especially when working on responsive designs. The **CSS Unit Converter** was built to eliminate that hassle.
 
-Changes made via Lovable will be committed automatically to this repo.
+With **real-time visual feedback** and **context-aware suggestions**, this tool helps developers better understand the behavior and best use cases for each CSS unit — all in one seamless, interactive interface.
 
-**Use your preferred IDE**
+Launched as part of the [Peerlist Launchpad](https://www.peerlist.io/launchpad), this project proudly secured the **#2 spot out of 91 projects worldwide**.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🔗 Live Demo
 
-Follow these steps:
+👉 [Check it out here]([https://css-unit-converter.vercel.app/](https://css-unit-converter-rho.vercel.app/))
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## ⚙️ Features
 
-# Step 3: Install the necessary dependencies.
-npm i
+- 🔄 Real-time conversion between multiple CSS units  
+- 👀 Visual representation of how each unit behaves  
+- 🧠 Smart, context-aware recommendations based on usage (typography, layout, spacing, etc.)  
+- 🎓 Educational UI to promote better design decisions  
+- 📱 Fully responsive and mobile-friendly interface
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
+## 🛠️ Tech Stack
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- **Frontend:** HTML, CSS (Tailwind), JavaScript  
+- **Framework/Library:** Vanilla JavaScript  
+- **Deployment:** Vercel  
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/718681f9-1835-4887-a233-9ec8d62d329f) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+---
